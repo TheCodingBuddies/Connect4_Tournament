@@ -1,0 +1,23 @@
+init:
+
+client ---> connect     ----> server
+client <--- id / denied <---- server
+
+
+game:
+
+client ----> myTurn?       ----> server
+client <---- next/denied   <---- server
+(client ----> turn/id       ----> server)
+
+
+shutdown:
+
+client ----> myTurn?   ----> server
+client <---- shutdown  <---- server
+client ----> ok        ----> server
+
+
+id:
+type:
+args:
