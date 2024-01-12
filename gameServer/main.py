@@ -15,10 +15,11 @@ from src.Tournament.match_maker import MatchMaker
 
 
 if __name__ == '__main__':
-    port = sys.argv[1] if len(sys.argv) == 2 else 8765
+    port = sys.argv[1] if len(sys.argv) == 2 and sys.argv[1].isnumeric() else 8765
+    manual_mode = True if "--manual-mode" in sys.argv else False
     loop = asyncio.get_event_loop()
     future = loop.create_future()
-    my_server = Server('localhost', port, MatchMaker(10, 0))
+    my_server = Server('localhost', port, MatchMaker(10, 0), manual_mode)
 
     thread = threading.Thread(target=my_server.start_server, args=(loop, future))
     thread.start()
