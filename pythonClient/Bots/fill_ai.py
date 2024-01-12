@@ -2,8 +2,10 @@ from Bots.bot_ai import BotAI
 
 
 class FillAI(BotAI):
+    next_column = 0
+
     def play(self, current_field):
-        return 0
+        return self.next_column
 
     def get_name(self):
         return self.name
