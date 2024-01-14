@@ -6,10 +6,10 @@ from src.server.server import Server
 from src.tournament.match_maker import MatchMaker
 
 
-def run(port):
+def run(port, manual_mode):
     loop = asyncio.get_event_loop()
     future = loop.create_future()
-    my_server = Server('localhost', port, MatchMaker(10, 0))
+    my_server = Server('localhost', port, MatchMaker(10, 0), manual_mode)
 
     thread = threading.Thread(target=my_server.start_server, args=(loop, future))
     thread.start()

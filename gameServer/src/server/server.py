@@ -12,9 +12,8 @@ from ..game.player import Player
 
 class Server:
     PLAYER_CHECK_TIMEOUT_INTERVAL_IN_S = 0.1
-    PLAYER_MAX_TURN_TIME_IN_MS = 2000
 
-    def __init__(self, ip, port, match_maker: MatchMaker):
+    def __init__(self, ip, port, match_maker: MatchMaker, manual_mode):
         self.ip = ip
         self.port = port
         self.event_type = pygame.USEREVENT
@@ -23,6 +22,8 @@ class Server:
         self.timer = threading.Timer(self.PLAYER_CHECK_TIMEOUT_INTERVAL_IN_S, self.__handle_timeout)
         self.timeout_player_id = 0
         self.start_turn_timestamp = 0
+        self.player_max_turn_time_in_ms = 2000 if not manual_mode else 20000000
+
 
     async def handle(self, websocket):
         async for message in websocket:
@@ -64,7 +65,7 @@ class Server:
         if self.timeout_player_id != 0:
             toc = time.process_time_ns()
             elapsed_in_ms = (toc - self.start_turn_timestamp) // 1000000
-            if elapsed_in_ms >= self.PLAYER_MAX_TURN_TIME_IN_MS:
+            if elapsed_in_ms >= self.player_max_turn_time_in_ms:
                 print("timeout for ID:", self.timeout_player_id)
                 self.match_maker.surrender()
                 return
