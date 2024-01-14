@@ -2,7 +2,7 @@ from unittest import TestCase
 
 import numpy as np
 
-from gameServer.src.Game.board import Board
+from src.game.board import Board
 
 
 class TestBoard(TestCase):

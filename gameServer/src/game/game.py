@@ -5,9 +5,9 @@ import time
 import numpy as np
 import pygame
 
-from Game.board import Board
-from Game.game_config import GameConfig
-from Game.referee import Referee
+from ..game.board import Board
+from ..game.game_config import GameConfig
+from ..game.referee import Referee
 
 
 class Game:
@@ -91,7 +91,7 @@ class Game:
     def __print_game_finished(self):
         print(np.flip(self.board.get_field(), 0))
         print(self.winner.get_name(), "wins")
-        print("Game finished")
+        print("game finished")
 
     def __toggle_players(self):
         self.active_player, self.inactive_player = self.inactive_player, self.active_player

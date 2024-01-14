@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from gameServer.src.Game.player import Player
-from gameServer.src.Statistics.game_statistics import GameStatistics
+from src.game.player import Player
+from src.statistics.game_statistics import GameStatistics
 
 
 class TestGameStatistics(TestCase):

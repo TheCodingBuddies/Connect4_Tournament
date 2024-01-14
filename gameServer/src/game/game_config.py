@@ -1,4 +1,4 @@
-from Game.player import Player
+from ..game.player import Player
 
 
 class GameConfig:

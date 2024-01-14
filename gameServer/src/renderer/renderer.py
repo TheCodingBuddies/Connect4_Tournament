@@ -91,7 +91,7 @@ class Renderer:
         bold_font = pygame.font.SysFont("monospace", 40, bold=True)
         big_bold_font = pygame.font.SysFont("monospace", 70, bold=True)
         self.__draw_background()
-        self.__draw_text("Game Summary", WHITE, "center", (self.width // 2, 50), big_bold_font)
+        self.__draw_text("game Summary", WHITE, "center", (self.width // 2, 50), big_bold_font)
 
         self.__draw_text(self.player_1.get_name(), PLAYER_ONE_COLOR, "topleft", (inner_boarder, 150), bold_font)
         self.__draw_text("vs", WHITE, "center", (self.width // 2, 150), self.font)

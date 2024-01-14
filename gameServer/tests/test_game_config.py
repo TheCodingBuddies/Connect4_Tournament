@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from gameServer.src.Game.game_config import GameConfig
-from gameServer.src.Game.player import Player
+from src.game.game_config import GameConfig
+from src.game.player import Player
 
 
 class TestGameConfig(TestCase):

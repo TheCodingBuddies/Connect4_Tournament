@@ -6,8 +6,8 @@ import time
 import pygame
 import websockets
 
-from . import MatchMaker
-from . import Player
+from ..tournament.match_maker import MatchMaker
+from ..game.player import Player
 
 
 class Server:

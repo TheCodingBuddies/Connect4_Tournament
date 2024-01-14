@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from gameServer.src.Game.board import Board
-from gameServer.src.Game.referee import Referee
+from src.game.board import Board
+from src.game.referee import Referee
 
 
 def win_vertically_board():
@@ -80,4 +80,4 @@ class TestReferee(TestCase):
         for board in winning_boards:
             with self.subTest(board):
                 self.assertEqual(self.referee.check_for_win(board, 1), wins[i])
-            i = i + 1
+            i += 1

@@ -4,9 +4,9 @@ from unittest.mock import patch, Mock
 
 import pygame
 
-from gameServer.src.Game.game import Game
-from gameServer.src.Game.game_config import GameConfig
-from gameServer.src.Game.player import Player
+from src.game.game import Game
+from src.game.game_config import GameConfig
+from src.game.player import Player
 
 
 def turn(column, player_id):

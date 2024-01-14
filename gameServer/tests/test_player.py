@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from gameServer.src.Game.player import Player
+from src.game.player import Player
 
 
 class TestPlayer(TestCase):

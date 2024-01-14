@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from gameServer.src.Tournament.match_maker import MatchMaker
+from src.tournament.match_maker import MatchMaker
 
 
 class TestMatchMaker(TestCase):

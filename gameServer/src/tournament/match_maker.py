@@ -1,10 +1,10 @@
 import pygame
 
-from Game.game import Game
-from Game.game_config import GameConfig
-from Game.player import Player
-from Renderer.renderer import Renderer
-from Statistics.game_statistics import GameStatistics
+from ..game.game import Game
+from ..game.game_config import GameConfig
+from ..game.player import Player
+from ..renderer.renderer import Renderer
+from ..statistics.game_statistics import GameStatistics
 
 
 # from . import GameStatistics

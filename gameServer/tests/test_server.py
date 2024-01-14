@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from gameServer.src.Server.server import Server
+from connect4 import Server
 
 
 class TestServer(TestCase):
