@@ -6,15 +6,6 @@ class UserAI(BotAI):
         #
         # Implementiere hier deine Logik, damit die KI spielen kann
         #
-        print("my turn with id: ", self.token_id)
-        for i in range(len(current_field)):
-            print(f"i={i}: [", end="")
-            for j in range(len(current_field[i])):
-                print(f"{current_field[i][j]} (j={j}), ", end="")
-            print("]")
-
-        print("")
-        print("")
         return 0  # aktuell wird immer die erste Spalte ausgewählt als nächsten Zug
 
     def get_name(self):

@@ -35,14 +35,14 @@ Den Spieleserver startest du wie folgt:
 
 ```  
 cd gameServer
-py main.py
+py __main__.py
 ``` 
 
 Hierfür wird default der Port 8765 verwendet. Falls du beispielsweise den Port 5555 
 verwenden möchtest, ändere den Aufruf zu:
 
 ```  
-py main.py 5555
+py __main__.py 5555
 ```
 
 Es sollte als letzte Nachricht zu sehen sein:
@@ -54,9 +54,9 @@ start game server..
 Der Server ist erfolgreich gestartet und die Clients können sich verbinden.
 Sobald sich zwei Clients verbunden haben, beginnt das Spiel.
 
-## Einen Client mit dem Server verbinden
+## Einen Client mit dem Server verbinden (Python)
 
-Den Python client startest du wie folgt:
+Den Python Client starten:
 
 ```  
 cd pythonClient
@@ -74,17 +74,77 @@ Möchtest du beispielsweise die Fill KI starten und der Server läuft auf 5555:
 py clientMain.py fill 5555
 ```
 
+## Einen Client mit dem Server verbinden (Java)
+
+Den Java Client starten:
+
+```  
+cd javaClient   # in den javaClient Ordner wechseln
+gradlew run
+```
+
+Um einen anderen Port oder eine andere KI zu verwenden:
+
+```  
+gradlew run --args="<BotName <Port>"
+``` 
+
+| Parameter | Beschreibung                                             |
+|-----------|----------------------------------------------------------|
+| BotName   | Name der KI, die gestartet werden soll (default: random) |
+| Port      | Port des Servers (default: 8765)                         |
+
+Möchtest du beispielsweise deine eigene KI starten und der Server läuft auf 5555:
+
+```  
+gradlew run --args="user 5555"
+``` 
+
 ## Die Botklasse
 
-Die Botklasse kann wahlweise in Java oder Python implementiert werden:
+Um eine Eigene KI in das Spiel zu integrieren, muss eine vorgegebene BotKlasse implmenetiert werden.
+Dafür muss die play() Methode/Funktion ergänzt werden.
+
+Die Botklasse kann wahlweise in Java oder Python entwickelt werden:
 
 ### Python
 
-TBD
+Unter dem Pfad "Bots" findest du das user_ai.py file.
+Diese Klasse beinhaltet die user KI und die folgende Funktion "play":
+
+```
+    def play(self, current_field):
+        #
+        # Implementiere hier deine Logik, damit die KI spielen kann
+        #
+        return 0  # aktuell wird immer die erste Spalte ausgewählt als nächsten Zug
+```
+
+Der Returnwert der play Funktion ist ein Integer innerhalb von 0-5 (mögliche Spalten im Spielfeld)
 
 ### Java
 
-TBD
+Unter dem Package "bots" findest du das UserBot.java file.
+Diese Klasse beinhaltet die user KI und die folgende Funktion "play":
+
+```
+    public int play(int[][] field) {
+        /*
+        Implementiere hier deine Logik, damit die KI spielen kann
+         */
+        return 0; // aktuell wird immer die erste Spalte ausgewählt als nächsten Zug
+    }
+```
+
+Der Returnwert der play Funktion ist ein Integer innerhalb von 0-5 (mögliche Spalten im Spielfeld)
+
+### Übersicht der aktuellen Bots
+
+| Bot    | Beschreibung                           |
+|--------|----------------------------------------|
+| random | wählt zufällig eine nächste Spalte aus |
+| fill   | füllt eine konfigurierte Spalte auf    |
+| user | verwendet deine eigene KI              |
 
 ## Spielfeld Daten
 

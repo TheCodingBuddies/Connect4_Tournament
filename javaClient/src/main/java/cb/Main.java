@@ -17,7 +17,7 @@ public class Main {
     }
 
     private static int getPort(String[] args) {
-        if (args.length > 1)
+        if (args.length > 1) {
             return Integer.parseInt(args[1]);
         } else {
             return 8765;

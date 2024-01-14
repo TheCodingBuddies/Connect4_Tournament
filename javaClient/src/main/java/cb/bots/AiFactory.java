@@ -5,6 +5,8 @@ public class AiFactory {
          switch (type) {
              case "fill":
                  return new FillBot();
+             case "user":
+                 return new UserBot();
              default:
                  return new RandomBot();
          }

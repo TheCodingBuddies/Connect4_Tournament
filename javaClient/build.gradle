@@ -2,6 +2,8 @@ plugins {
     id 'java'
 }
 
+apply plugin: 'application'
+
 group 'cb'
 version '1.0-SNAPSHOT'
 
@@ -14,6 +16,12 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation 'org.java-websocket:Java-WebSocket:1.5.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7.1'
+}
+
+
+
+application {
+    mainClass = 'cb.Main'
 }
 
 test {
