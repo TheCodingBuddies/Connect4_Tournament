@@ -8,6 +8,8 @@ Nutzt euer erlangtes Wissen aus dem Kurs und tretet gegen andere Entwickler in e
 Solltet ihr Fragen haben oder Hilfe benötigen. Scheut euch nicht uns auf unseren Plattformen zu kontaktieren! Wir werden
 auch verschiedene Starthilfen zur Verfügung stellen.
 
+**UND ACHTUNG! Der Spaß und das Lernen steht im Vordergrund also macht mit :)**
+
 <br>
 
 ![Beispielpartie](example.jpg)
@@ -31,10 +33,16 @@ ist es eine gewisse Anzahl an Spiele gegen eine Gegner KI zu gewinnen und als Tu
 
 ## Den Spieleserver starten
 
-Den Spieleserver startest du wie folgt:
+Den Spieleserver findest du im Ordner "gameserver", welcher als Python projekt geöffnet werden kann.
+Um die notwendigen Packages für den Server zu installieren:
+
+```
+py -m pip install -r requirements.txt
+```
+
+Danach kannst du den Spieleserver wie folgt starten (im gameserver ordner):
 
 ```  
-cd gameServer
 py __main__.py
 ``` 
 
