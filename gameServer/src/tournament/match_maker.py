@@ -7,10 +7,6 @@ from ..renderer.renderer import Renderer
 from ..statistics.game_statistics import GameStatistics
 
 
-# from . import GameStatistics
-# from . import Player
-
-
 class MatchMaker:
 
     def __init__(self, rounds, speed_ms):
@@ -48,7 +44,7 @@ class MatchMaker:
                         manual_quit = True
 
     def active_player(self):
-        return self.active_game.get_active_player()
+        return self.active_game.get_active_player() if self.active_game is not None else None
 
     def board_state(self):
         return self.active_game.get_board_state().tolist()

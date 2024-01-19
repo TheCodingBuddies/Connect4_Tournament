@@ -4,7 +4,6 @@ import sys
 import time
 
 import websockets
-
 from Bots.aiFactory import AiFactory
 from Bots.bot_ai import BotAI
 
@@ -28,7 +27,7 @@ async def get_game_state(websocket, bot):
 
 async def client(bot: BotAI):
     uri = "ws://localhost:" + str(port)
-    async with websockets.connect(uri) as websocket:
+    async with websockets.connect(uri, ping_timeout=None, ping_interval=None) as websocket:
         connected = False
         while True:
             if not connected:
@@ -39,7 +38,7 @@ async def client(bot: BotAI):
                 if state_obj["id"] == bot.get_player_id():
                     match state_obj["gameState"]:
                         case "pending":
-                            time.sleep(0.1)
+                            time.sleep(0.01)
                         case "finished":
                             print("Spiel vorbei. Client wird beendet")
                             return  # oder break?
@@ -59,7 +58,7 @@ async def client(bot: BotAI):
                             if play_response_obj["gameState"] == "finished":
                                 return
                         case _:
-                            time.sleep(0.05)
+                            time.sleep(0.01)
 
 
 if __name__ == "__main__":

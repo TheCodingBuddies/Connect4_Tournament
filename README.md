@@ -88,13 +88,13 @@ Den Java Client starten:
 
 ```  
 cd javaClient   # in den javaClient Ordner wechseln
-gradlew run
+.\gradlew run
 ```
 
 Um einen anderen Port oder eine andere KI zu verwenden:
 
 ```  
-gradlew run --args="<BotName <Port>"
+.\gradlew run --args="<BotName <Port>"
 ``` 
 
 | Parameter | Beschreibung                                             |
@@ -105,7 +105,7 @@ gradlew run --args="<BotName <Port>"
 Möchtest du beispielsweise deine eigene KI starten und der Server läuft auf 5555:
 
 ```  
-gradlew run --args="user 5555"
+.\gradlew run --args="user 5555"
 ``` 
 
 ## Die Botklasse
