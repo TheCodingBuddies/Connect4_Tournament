@@ -2,7 +2,6 @@ import pygame
 
 from ..game.game import Game
 from ..game.game_config import GameConfig
-from ..game.player import Player
 from ..renderer.renderer import Renderer
 from ..statistics.game_statistics import GameStatistics
 
@@ -17,13 +16,25 @@ class MatchMaker:
         self.renderer = None
         self.surrendered = False
         self.survivor = None
+        self.players = []
 
-    def start_match(self, player_1: Player, player_2: Player):
+    def add_player(self, player):
+        if len(self.players) < 2:
+            self.players.append(player)
+
+    def ready_to_play(self):
+        return len(self.players) == 2
+
+    def start_match(self):
+        if not self.ready_to_play():
+            print("Not enough player! Stop game")
+            return
+
         row_amount = 6
         column_amount = 7
-        config = GameConfig(row_amount, column_amount, self.speed_ms, player_1, player_2)
+        config = GameConfig(row_amount, column_amount, self.speed_ms, self.players[0], self.players[1])
         self.renderer = Renderer(120, config.get_columns(), config.get_rows(),
-                                 player_1, player_2)
+                                 self.players[0], self.players[1])
         while self.rounds_left > 0:
             player1_starts = self.rounds_left % 2 == 0
             self.active_game = Game(config, player1_starts, self.renderer)

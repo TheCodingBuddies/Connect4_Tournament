@@ -8,7 +8,7 @@ from src.server.message_handler import MessageHandler
 class GameServer:
 
     def __init__(self, port, message_handler: MessageHandler):
-        self.server = WebsocketServer(port=port, loglevel=logging.DEBUG)
+        self.server = WebsocketServer(port=port, loglevel=logging.CRITICAL)
         self.handler = message_handler
         self.server.set_fn_new_client(self.on_new_client)
         self.server.set_fn_message_received(self.on_message_received)
@@ -20,16 +20,13 @@ class GameServer:
     def stop(self):
         self.server.shutdown_gracefully()
 
-    def sendTo(self, client, message):
-        self.server.send_message(client, message)
-
     def on_new_client(self, client, server):
         print("connected: ", client)
-        pass
 
     def on_client_left(self, client, server):
         print("disconnected: ", client)
 
     def on_message_received(self, client, server, message):
         answer = self.handler.handle(client, message)
-        self.server.send_message(client, answer)
+        if self.server.clients.index(client) >= 0:
+            self.server.send_message(client, answer)
