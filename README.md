@@ -62,6 +62,18 @@ start game server..
 Der Server ist erfolgreich gestartet und die Clients können sich verbinden.
 Sobald sich zwei Clients verbunden haben, beginnt das Spiel.
 
+Den Server im "Manuellen Modus" starten auf dem standard Port:
+```
+py __main__.py --manual-mode
+```
+Den Server im "Manuellen Modus" starten mit selbst definiertem Port (z.B. port=7878):
+```
+py __main__.py 7878 --manual-mode
+```
+Das ist wichtig um den Server ohne Timeout laufen zu lassen. 
+Das ist notwendig wenn man den manuellen Client zum spielen nutzen möchte.
+
+
 ## Einen Client mit dem Server verbinden (Python)
 
 Den Python Client starten:
@@ -136,7 +148,7 @@ Unter dem Package "bots" findest du das UserBot.java file.
 Diese Klasse beinhaltet die user KI und die folgende Funktion "play":
 
 ```
-    public int play(int[][] field) {
+    public int play(int[][] current_field) {
         /*
         Implementiere hier deine Logik, damit die KI spielen kann
          */
