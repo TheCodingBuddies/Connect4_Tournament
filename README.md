@@ -123,7 +123,7 @@ Möchtest du beispielsweise deine eigene KI starten und der Server läuft auf 55
 ## Einen Client mit dem Server verbinden (Manueller Client)
 
 Um gegen deine eigene KI spielen zu können, kannst du einen manuellen Client starten.
-Anschließend kannst du mit der Eingabe von 1-6 in der Konsole deinen nächsten Zug auswählen.
+Anschließend kannst du mit der Eingabe von 1-7 in der Konsole deinen nächsten Zug auswählen.
 
 Den Manual Client starten:
 

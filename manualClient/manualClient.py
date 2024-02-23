@@ -27,7 +27,7 @@ async def get_game_state(client_id, websocket):
 
 async def client():
     uri = "ws://localhost:" + str(port)
-    async with websockets.connect(uri) as websocket:
+    async with websockets.connect(uri, ping_timeout=None, ping_interval=None) as websocket:
         connected = False
         client_id = 0
         while True:
@@ -43,7 +43,7 @@ async def client():
                             print("Spiel vorbei. Client wird beendet")
                             return  # oder break?
                         case "playing":
-                            print("Enter Column 1-6")
+                            print("Enter Column 1-7")
                             column = int(input()) - 1
                             await websocket.send(json.dumps(
                                 {
