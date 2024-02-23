@@ -108,6 +108,24 @@ Möchtest du beispielsweise deine eigene KI starten und der Server läuft auf 55
 .\gradlew run --args="user 5555"
 ``` 
 
+## Einen Client mit dem Server verbinden (Manueller Client)
+
+Um gegen deine eigene KI spielen zu können, kannst du einen manuellen Client starten.
+Anschließend kannst du mit der Eingabe von 1-6 in der Konsole deinen nächsten Zug auswählen.
+
+Den Manual Client starten:
+
+```  
+cd manualClient   # in den ManuelClient Ordner wechseln
+py manualClient.py <DeinName> <Port>
+```
+
+Möchtest du beispielsweise mit dem Namen "Jarvis" spielen und der Server läuft auf Port 5555:
+
+```  
+py manualClient.py Jarvis 5555
+```
+
 ## Die Botklasse
 
 Um eine Eigene KI in das Spiel zu integrieren, muss eine vorgegebene BotKlasse implmenetiert werden.

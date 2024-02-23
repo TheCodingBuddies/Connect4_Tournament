@@ -10,6 +10,7 @@ def run(port, manual_mode):
     match_maker = MatchMaker(10, 0)
     message_handler = MessageHandler(manual_mode, match_maker)
     my_server = GameServer(port, message_handler)
+    print("start game server..")
     my_server.start()
 
     while not match_maker.ready_to_play():
