@@ -2,7 +2,7 @@
 
 namespace CsClient.Bots
 {
-    public class FooBot : IBot
+    public class RandomBot : IBot
     {
         /// <inheritdoc/>
         public string Name { get; }
@@ -13,22 +13,14 @@ namespace CsClient.Bots
         /// <inheritdoc/>
         public int Play(int[][] field)
         {
-            //
-            // Do Your Fancy Stuff
-            // field Array is current Board
-            //
-            // return welche Spalte du Bespielen magst.
-            //
-            // Beispiel.
-
             Random r = new Random();
             return r.Next(7);
         }
 
-        public FooBot()
+        public RandomBot()
         {
-            Name = "Example Name";      // Change
-            PlayerId = -1;              // DO not Change
+            Name = "Random Bot";      
+            PlayerId = -1;
         }
     }
 }

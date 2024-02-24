@@ -20,7 +20,7 @@ namespace CsClient.Bots
         /// <summary>
         /// Spielmethode.
         /// </summary>
-        /// <param name="field"></param>
+        /// <param name="field">Das aktuelle Spielfeld</param>
         /// <returns>Spalte welche bespielt werden soll</returns>
         int Play(int[][] field);
 

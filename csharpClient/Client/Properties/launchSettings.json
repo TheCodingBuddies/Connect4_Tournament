@@ -2,7 +2,7 @@
   "profiles": {
     "Client": {
       "commandName": "Project",
-      "commandLineArgs": "-n MyFancyBot -s localhost -p 8765"
+      "commandLineArgs": "-n UserBot -s localhost -p 8765"
     }
   }
 }

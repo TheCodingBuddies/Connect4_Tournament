@@ -30,6 +30,7 @@ ist es eine gewisse Anzahl an Spiele gegen eine Gegner KI zu gewinnen und als Tu
 
 - Python 3.10.4+ (für den Spieleserver und gegebenfalls für den Bot)
 - Java SDK 17+  (falls der Bot in Java geschrieben wird)
+- dotnet 8.0 (falls der Bot in csharp geschrieben wird)
 
 ## Den Spieleserver starten
 
@@ -120,6 +121,22 @@ Möchtest du beispielsweise deine eigene KI starten und der Server läuft auf 55
 .\gradlew run --args="user 5555"
 ``` 
 
+## Einen Client mit dem Server verbinden (C#)
+
+Den C# Client starten
+```ps
+cd csharpClient\Client
+dotnet run -- -n OtherUserBot   #startet den Client und vergibt den Klassennamen "OtherUserBot"
+```
+| Parmeter | Switch         | Beschreibung                                  | Default     |
+| -------- | -------------- | --------------------------------------------- | ----------- |
+BotName    | -n or --name   | Name der KI, die gestartet werden soll        | UserBot     |
+Server     | -s or --server | Serveradresse (ip oder dns)                   | localhost   |
+Port       | -p or --port   | Port des 4 Connect Servers auf dem Zielserver | 8765        |
+
+Wenn ihr also mehrere Bots geschrieben habt, könnt ihr mit dem Namen das ganze umschalten. 
+Es ist aber natürlich auch ausreichend den Default zu belassen und alles im "UserBot" zu machen.
+
 ## Einen Client mit dem Server verbinden (Manueller Client)
 
 Um gegen deine eigene KI spielen zu können, kannst du einen manuellen Client starten.
@@ -182,7 +199,26 @@ Der Returnwert der play Funktion ist ein Integer innerhalb von 0-5 (mögliche Sp
 |--------|----------------------------------------|
 | random | wählt zufällig eine nächste Spalte aus |
 | fill   | füllt eine konfigurierte Spalte auf    |
-| user | verwendet deine eigene KI              |
+| user   | verwendet deine eigene KI              |
+
+### C#
+
+Im rootverzeichnes des "Bots" Projektes findet ihr schon zwei Klassen, einmal den Beispiel RandomBot, den ihr vlt aus dem Java Teil kennt und eine Art Vorlage der "UserBot". Letzere ist quasi das Template für euren Bot, fügt hier in die Play Methode einfach euren C# Quellcode ein der ausgeführt werden soll. 
+
+```cs
+public int Play(int[][] field)
+{
+    //
+    // Deine Play Methode - hier kann deine Logik stehen :)
+    // 
+
+    return 0;
+}
+```
+
+Der Returnwert der Play Methode ist ein Integer innerhalb von 0-5 (mögliche Spalten im Spielfeld)
+
+
 
 ## Spielfeld Daten
 

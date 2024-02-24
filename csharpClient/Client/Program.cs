@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using CsClient.Bots;
+using CsClient.Bots.Internal;
 using CsClient.Client;
 
 Parser.Default.ParseArguments<Options>(args)
@@ -8,10 +9,15 @@ Parser.Default.ParseArguments<Options>(args)
 
 static async void Run(Options o)
 {
+#if DEBUG
+    Console.WriteLine("Debug Mode");
+#endif
+
     string serverUrl = $"ws://{o.Server}:{o.Port}";
     Console.WriteLine($"Run Bot {o.Name} with Serveraddress: {serverUrl}");
 
-    FourConnectWebsocketClient myClient = new FourConnectWebsocketClient(new FooBot());
+    FourConnectWebsocketClient myClient = new FourConnectWebsocketClient(
+        BotFactory.GetBotByName(o.Name));
 
     myClient.OnOpen += (s,e) => { Console.WriteLine("Connected!"); };
     myClient.OnClose += (s, e) =>
@@ -31,7 +37,7 @@ static void OnError(IEnumerable<Error> errors)
 
 public class Options
 {
-    [Option('n', "name", Default = "My Bot", HelpText = "Name for your bot")]
+    [Option('n', "name", Default = "UserBot", HelpText = "Name for your bot")]
     public string Name { get; set; }
 
     [Option('s', "server", Default = "localhost", HelpText = "Server with running 4Connect Service")]
