@@ -16,7 +16,7 @@ namespace CsClient.Bots
         public int PlayerId { get; set; }
 
         /// <inheritdoc/>
-        public int Play(int[][] field)
+        public int Play(int[][]? field)
         {
             //
             // Deine Play Methode - hier kann deine Logik stehen :)

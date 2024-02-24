@@ -1,4 +1,5 @@
-﻿using System.Net.WebSockets;
+﻿using System.Diagnostics;
+using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
 using CsClient.Bots;
@@ -11,9 +12,9 @@ namespace CsClient.Client
     {
         public delegate void MyMessageReceivedEventHandler(object sender, string message);
 
-        public event EventHandler OnOpen;
-        public event EventHandler OnClose;
-        public event MyMessageReceivedEventHandler OnMessage;
+        public event EventHandler? OnOpen;
+        public event EventHandler? OnClose;
+        public event MyMessageReceivedEventHandler? OnMessage;
 
         private readonly UTF8Encoding _encoding = new();
         private readonly IBot _bot;
@@ -43,7 +44,7 @@ namespace CsClient.Client
             _webSocket.ConnectAsync(uri, CancellationToken.None).Wait();
 
             await SendHandshake();
-            Task.Run(Listen);
+            _ = Task.Run(Listen);
             OnOpen?.Invoke(this, EventArgs.Empty);
         }
 
@@ -53,8 +54,11 @@ namespace CsClient.Client
         /// <returns>Das Taskobjekt welches die asynchrone ausfuehrung repraesentiert</returns>
         public async Task Disconnect()
         {
-            await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Normal Closure", CancellationToken.None);
-            _webSocket.Dispose();
+            if (_webSocket is not null)
+            {
+                await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Normal Closure", CancellationToken.None);
+                _webSocket.Dispose();
+            }
             OnClose?.Invoke(this, EventArgs.Empty);
         }
 
@@ -93,11 +97,11 @@ namespace CsClient.Client
         private async Task Listen()
         {
             ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[1024]);
-            WebSocketReceiveResult result = null;
-            while (_webSocket.State == WebSocketState.Open)
+            while (_webSocket?.State == WebSocketState.Open)
             {
                 using (var ms = new MemoryStream())
                 {
+                    WebSocketReceiveResult result;
                     do
                     {
                         result = _webSocket.ReceiveAsync(buffer, CancellationToken.None).Result;
@@ -108,7 +112,7 @@ namespace CsClient.Client
                         }
                         else
                         {
-                            ms.Write(buffer.Array, buffer.Offset, result.Count);
+                            ms.Write(buffer.Array!, buffer.Offset, result.Count);
                         }
                     }
                     while (!result.EndOfMessage);
@@ -135,7 +139,10 @@ namespace CsClient.Client
         {
             if (!_isConnected)
             {
-                ConnectionData connectionData = JsonSerializer.Deserialize<ConnectionData>(stringData);
+                ConnectionData? connectionData = JsonSerializer.Deserialize<ConnectionData>(stringData);
+                if (connectionData is null)
+                    throw new JsonException("Unable to Deserialize " + stringData);
+
                 _isConnected = connectionData.Connected;
                 _bot.PlayerId = connectionData.Id;
 
@@ -144,9 +151,13 @@ namespace CsClient.Client
             }
             else
             {
-                StateData stateData = JsonSerializer.Deserialize<StateData>(stringData);
-                switch (stateData.GameState.ToLower())
+                StateData? stateData = JsonSerializer.Deserialize<StateData>(stringData);
+                if (stateData is null)
+                    throw new JsonException("Unable to Deserialize " + stringData);
+                
+                switch (stateData.GameState?.ToLower())
                 {
+                    case null:
                     case "pending":
                         Sleep(100).Wait();
                         Send(Request.GetStateFor(_bot.PlayerId)).Wait();
@@ -155,7 +166,7 @@ namespace CsClient.Client
                     // exit
                         break;
                     case "playing":
-                        var column = _bot.Play(stateData.Field.Select(row => row.Select(cell => (int)cell).ToArray()).ToArray());
+                        var column = _bot.Play(stateData.Field?.Select(row => row.Select(cell => (int)cell).ToArray()).ToArray());
                         Send(Request.PlayColumn(_bot.PlayerId, column)).Wait();
                         break;
                     default:
@@ -169,7 +180,7 @@ namespace CsClient.Client
 
         public void Dispose()
         {
-            _webSocket.Dispose();
+            _webSocket?.Dispose();
         }
     }
 }

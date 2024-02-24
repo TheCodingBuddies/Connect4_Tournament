@@ -11,7 +11,7 @@ namespace CsClient.Bots
         public int PlayerId { get; set; }
 
         /// <inheritdoc/>
-        public int Play(int[][] field)
+        public int Play(int[][]? field)
         {
             Random r = new Random();
             return r.Next(7);

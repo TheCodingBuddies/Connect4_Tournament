@@ -17,7 +17,7 @@ static async void Run(Options o)
     Console.WriteLine($"Run Bot {o.Name} with Serveraddress: {serverUrl}");
 
     FourConnectWebsocketClient myClient = new FourConnectWebsocketClient(
-        BotFactory.GetBotByName(o.Name));
+        BotFactory.GetBotByName(o.Name!));
 
     myClient.OnOpen += (s,e) => { Console.WriteLine("Connected!"); };
     myClient.OnClose += (s, e) =>
@@ -38,10 +38,10 @@ static void OnError(IEnumerable<Error> errors)
 public class Options
 {
     [Option('n', "name", Default = "UserBot", HelpText = "Name for your bot")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [Option('s', "server", Default = "localhost", HelpText = "Server with running 4Connect Service")]
-    public string Server { get; set; }
+    public string? Server { get; set; }
 
     [Option('p', "port", Default = 8765, HelpText = "Used Port for server connection")]
     public int Port { get; set; }

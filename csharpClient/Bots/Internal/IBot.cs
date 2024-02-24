@@ -22,7 +22,7 @@ namespace CsClient.Bots
         /// </summary>
         /// <param name="field">Das aktuelle Spielfeld</param>
         /// <returns>Spalte welche bespielt werden soll</returns>
-        int Play(int[][] field);
+        int Play(int[][]? field);
 
     }
 }

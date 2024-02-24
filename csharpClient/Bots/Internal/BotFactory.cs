@@ -15,14 +15,15 @@ namespace CsClient.Bots.Internal
             Assembly assembly = Assembly.GetExecutingAssembly();
             string className = $"{nameof(CsClient)}.{nameof(Bots)}.{botName}";
             
-            Type type = assembly.GetType(className);
+            Type? type = assembly.GetType(className);
             if (type is null)
             {
                 return new RandomBot();
             }
             else
-            {
-                return Activator.CreateInstance(type) as IBot;
+            {   
+                var instance = Activator.CreateInstance(type) as IBot;
+                return instance ?? new RandomBot();
             }
         }
     }
