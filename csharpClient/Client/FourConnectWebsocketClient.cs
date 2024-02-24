@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using CsClient.Bots;
+using CsClient.Client.Data;
 using CsClient.Client.Dto;
 
 namespace CsClient.Client
@@ -64,6 +65,9 @@ namespace CsClient.Client
         /// <returns>Das Taskobjekt welches die asynchrone ausfuehrung repraesentiert</returns>
         public async Task Send(string message)
         {
+#if DEBUG
+            Console.WriteLine("Send: " + message);
+#endif
             await _webSocket!.SendAsync(
                 new ArraySegment<byte>(_encoding.GetBytes(message)),
                 messageType: WebSocketMessageType.Text,
@@ -134,6 +138,8 @@ namespace CsClient.Client
                 ConnectionData connectionData = JsonSerializer.Deserialize<ConnectionData>(stringData);
                 _isConnected = connectionData.Connected;
                 _bot.PlayerId = connectionData.Id;
+
+                var connectRequest = Request.GetStateFor(_bot.PlayerId);
                 Send("{\"id\":" + _bot.PlayerId + ", \"type\": \"getState\"}").Wait();
             }
             else
@@ -142,20 +148,21 @@ namespace CsClient.Client
                 switch (stateData.GameState.ToLower())
                 {
                     case "pending":
-                        Sleep(100);
-                        Send("{\"id\":" + _bot.PlayerId + ", \"type\": \"getState\"}").Wait();
+                        Sleep(100).Wait();
+                        Send(Request.GetStateFor(_bot.PlayerId)).Wait();
                         break;
                     case "finished":
-                        // exit
+                    // exit
+                        break;
                     case "playing":
-                        var column = _bot.Play(stateData.Field);
-                        Send("{\"id\":" + _bot.PlayerId + ", \"type\": \"play\", \"column\":" + column + "}").Wait();
+                        var column = _bot.Play(stateData.Field.Select(row => row.Select(cell => (int)cell).ToArray()).ToArray());
+                        Send(Request.PlayColumn(_bot.PlayerId, column)).Wait();
                         break;
                     default:
                         // not your turn
-                        Sleep(50);
-                        Send("{\"id\":" + _bot.PlayerId + ", \"type\": \"getState\"}").Wait();
-                        break;  
+                        Sleep(50).Wait();
+                        Send(Request.GetStateFor(_bot.PlayerId)).Wait();
+                        break;
                 }
             }
         }

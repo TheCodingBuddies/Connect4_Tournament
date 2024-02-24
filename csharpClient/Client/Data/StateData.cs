@@ -15,6 +15,6 @@ namespace CsClient.Client.Dto
         public string GameState { get; set; }
 
         [JsonPropertyName("field")]
-        public int[][] Field { get; set; }
+        public double[][] Field { get; set; }
     }
 }
