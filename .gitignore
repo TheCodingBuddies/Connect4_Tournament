@@ -3,3 +3,16 @@ __pycache__
 .gradle
 out
 build
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+[Bb]in/
+[Oo]bj/
+
+# VS Cache
+.vs/
+.vscode/
+.idea/

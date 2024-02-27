@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Client": {
+      "commandName": "Project",
+      "commandLineArgs": "-n UserBot -s localhost -p 8765"
+    }
+  }
+}
