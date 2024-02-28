@@ -44,8 +44,9 @@ namespace CsClient.Client
             _webSocket.ConnectAsync(uri, CancellationToken.None).Wait();
 
             await SendHandshake();
-            _ = Task.Run(Listen);
+
             OnOpen?.Invoke(this, EventArgs.Empty);
+            await Listen();
         }
 
         /// <summary>

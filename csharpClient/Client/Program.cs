@@ -27,7 +27,6 @@ static async void Run(Options o)
     };
 
     await myClient.Connect(serverUrl);
-    Console.ReadKey();
 }
 
 static void OnError(IEnumerable<Error> errors)
