@@ -22,16 +22,16 @@ class Renderer:
         self.window_size = (self.width, self.height)
         self.player_1 = player_1
         self.player_2 = player_2
-        self.quit_button = None
-
-    def init_board(self, board):
+        self.action_button = None
         pygame.init()
         pygame.fastevent.init()
         self.screen = pygame.display.set_mode(self.window_size)
+        self.font = pygame.font.SysFont("monospace", 40)
         icon = pygame.image.load("assets/4C.png")
         pygame.display.set_icon(icon)
         pygame.display.set_caption('4 Connect Tournament by Coding Buddies')
-        self.font = pygame.font.SysFont("monospace", 40)
+
+    def init_board(self, board):
         self.__draw_background()
         self.__draw_blocks(board)
         self.draw_chips(board)
@@ -89,19 +89,25 @@ class Renderer:
         self.__draw_square_img("assets/cross.png", column, top)
         pygame.display.update()
 
+    def draw_start_screen(self, rounds):
+        inner_boarder = 20
+        bold_font = pygame.font.SysFont("monospace", 40, bold=True)
+
+        self.__draw_background()
+        self.__draw_header("Upcoming Match", inner_boarder, bold_font)
+
+        self.__draw_text("Game Rounds: " + str(rounds), WHITE, "topleft",
+                         (inner_boarder, 250), self.font)
+
+        self.__draw_action_button("Start Game")
+        pygame.display.update()
+
     def draw_summary(self, game_statistic):
         inner_boarder = 20
         bold_font = pygame.font.SysFont("monospace", 40, bold=True)
-        big_bold_font = pygame.font.SysFont("monospace", 70, bold=True)
+
         self.__draw_background()
-        self.__draw_text("game Summary", WHITE, "center", (self.width // 2, 50), big_bold_font)
-
-        self.__draw_text(self.player_1.get_name(), PLAYER_ONE_COLOR, "topleft", (inner_boarder, 150), bold_font)
-        self.__draw_text("vs", WHITE, "center", (self.width // 2, 150), self.font)
-        self.__draw_text(self.player_2.get_name(), PLAYER_TWO_COLOR, "topright", (self.width - inner_boarder, 150),
-                         bold_font)
-
-        pygame.draw.line(self.screen, WHITE, (30, 200), (self.width - 30, 200))
+        self.__draw_header("Game Summary", inner_boarder, bold_font)
 
         self.__draw_text("Wins: " + str(game_statistic.get_total_wins(self.player_1)), WHITE, "topleft",
                          (inner_boarder, 250), self.font)
@@ -124,11 +130,23 @@ class Renderer:
             self.__draw_text("WINNER IS: " + self.player_2.get_name(), PLAYER_TWO_COLOR, "center",
                              (self.width // 2, 500), bold_font)
 
-        self.__draw_quit_button()
+        self.__draw_action_button("quit")
         pygame.display.update()
 
-    def has_user_quit_game(self, event):
-        return self.quit_button.collidepoint(event.pos)
+    def __draw_header(self, header_text, inner, bold_font):
+        big_bold_font = pygame.font.SysFont("monospace", 70, bold=True)
+
+        self.__draw_text(header_text, WHITE, "center", (self.width // 2, 50), big_bold_font)
+
+        self.__draw_text(self.player_1.get_name(), PLAYER_ONE_COLOR, "topleft", (inner, 150), bold_font)
+        self.__draw_text("vs", WHITE, "center", (self.width // 2, 150), self.font)
+        self.__draw_text(self.player_2.get_name(), PLAYER_TWO_COLOR, "topright", (self.width - inner, 150),
+                         bold_font)
+
+        pygame.draw.line(self.screen, WHITE, (30, 200), (self.width - 30, 200))
+
+    def has_user_emit_button(self, event):
+        return self.action_button.collidepoint(event.pos)
 
     def __draw_blocks(self, board):
         for c in range(board.get_columns_amount()):
@@ -163,13 +181,13 @@ class Renderer:
             self.height - int((row + (self.height_offset // 2)) * self.square_size + self.square_size / 2))
         self.screen.blit(scaled_image, image_rect.topleft)
 
-    def __draw_quit_button(self):
+    def __draw_action_button(self, action):
         quit_button_font = pygame.font.Font(None, 36)
-        quit_button_text = quit_button_font.render("Quit", True, WHITE)
-        self.quit_button = quit_button_text.get_rect(center=(self.width // 2, 600))
+        quit_button_text = quit_button_font.render(action, True, WHITE)
+        self.action_button = quit_button_text.get_rect(center=(self.width // 2, 600))
 
         pygame.draw.rect(self.screen, RED,
-                         (self.quit_button.x - 10, self.quit_button.y - 10, self.quit_button.width + 20,
-                          self.quit_button.height + 20),
+                         (self.action_button.x - 10, self.action_button.y - 10, self.action_button.width + 20,
+                          self.action_button.height + 20),
                          border_radius=10)
-        self.screen.blit(quit_button_text, self.quit_button)
+        self.screen.blit(quit_button_text, self.action_button)

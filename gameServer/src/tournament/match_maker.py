@@ -35,6 +35,8 @@ class MatchMaker:
         config = GameConfig(row_amount, column_amount, self.speed_ms, self.players[0], self.players[1])
         self.renderer = Renderer(120, config.get_columns(), config.get_rows(),
                                  self.players[0], self.players[1])
+
+        self.show_start_screen(self.rounds_left)
         while self.rounds_left > 0:
             player1_starts = self.rounds_left % 2 == 0
             self.active_game = Game(config, player1_starts, self.renderer)
@@ -43,15 +45,22 @@ class MatchMaker:
             self.statistics.update_statistics(winner)
         self.show_summary()
 
+    def show_start_screen(self, rounds):
+        self.renderer.draw_start_screen(rounds)
+        self.__wait_for_button_emit()
+
     def show_summary(self):
         self.renderer.draw_summary(self.statistics)
+        self.__wait_for_button_emit()
+
+    def __wait_for_button_emit(self):
         manual_quit = False
         while not manual_quit:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     manual_quit = True
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if self.renderer.has_user_quit_game(event):
+                    if self.renderer.has_user_emit_button(event):
                         manual_quit = True
 
     def active_player(self):
