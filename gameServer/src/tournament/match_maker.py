@@ -72,6 +72,9 @@ class MatchMaker:
     def match_over(self):
         return self.rounds_left <= 0
 
+    def match_paused(self):
+        return self.active_game is not None and self.active_game.paused
+
     def surrender(self):
         self.surrendered = True
         self.survivor = self.active_game.get_inactive_player()

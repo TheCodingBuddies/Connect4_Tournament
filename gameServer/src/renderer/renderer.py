@@ -23,6 +23,7 @@ class Renderer:
         self.player_1 = player_1
         self.player_2 = player_2
         self.action_button = None
+        self.buttons = None
         pygame.init()
         pygame.fastevent.init()
         self.screen = pygame.display.set_mode(self.window_size)
@@ -35,6 +36,7 @@ class Renderer:
         self.__draw_background()
         self.__draw_blocks(board)
         self.draw_chips(board)
+        self.__draw_speed_buttons()
 
     def draw_chips(self, board):
         for c in range(board.get_columns_amount()):
@@ -191,3 +193,25 @@ class Renderer:
                           self.action_button.height + 20),
                          border_radius=10)
         self.screen.blit(quit_button_text, self.action_button)
+
+    def __draw_speed_buttons(self):
+        self.buttons = pygame.sprite.Group()
+        button_configs = [("Pause", "assets/pause.png"), ("Play", "assets/play.png"), ("Faster", "assets/forward.png")]
+        x_coord = self.width / 2 - 50
+        for config in button_configs:
+            button = pygame.sprite.Sprite()
+            button.name = config[0]
+            button.image = pygame.image.load(config[1]).convert_alpha()
+            button.rect = button.image.get_rect()
+            button.rect.center = (x_coord, 50)
+            x_coord += 50
+            self.buttons.add(button)
+
+        self.buttons.draw(self.screen)
+
+    def is_speed_button_pressed(self):
+        pos = pygame.mouse.get_pos()
+        for button in self.buttons:
+            if button.rect.left < pos[0] < button.rect.right and button.rect.top < pos[1] < button.rect.bottom:
+                return button.name
+

@@ -18,6 +18,10 @@ class MessageHandler:
         if not self.match_maker.ready_to_play():
             return self.__handle_init(client, json_message)
         else:
+            if self.match_maker.match_paused():
+                self.timeout.update_timeout_player(self.match_maker.active_player().player_id)
+                return json.dumps({"id": json_message["id"], "gameState": "paused"})
+
             if self.match_maker.match_over():
                 self.timeout.cancel()
                 return json.dumps({"id": json_message["id"], "gameState": "finished"})

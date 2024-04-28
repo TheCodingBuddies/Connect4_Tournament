@@ -16,6 +16,7 @@ class Game:
         self.board = Board(game_config.get_rows(), game_config.get_columns())
         self.referee = Referee()
         self.speed_ms = game_config.get_speed()
+        self.game_config = game_config
         self.active_player = game_config.get_player_one() if player1_starts else game_config.get_player_two()
         self.inactive_player = game_config.get_player_two() if player1_starts else game_config.get_player_one()
         self.winner = None
@@ -23,6 +24,7 @@ class Game:
         self.winner_move = None
         self.invalid_move = None
         self.canceled = False
+        self.paused = False
 
     def get_winner(self):
         return self.winner
@@ -43,10 +45,18 @@ class Game:
 
         while self.referee.keep_playing() and not self.canceled:
             for event in pygame.fastevent.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.__adjust_speed(self.renderer.is_speed_button_pressed())
+
                 if event.type == pygame.QUIT:
                     sys.exit()
                 if event.type != pygame.USEREVENT:
                     continue
+
+                if self.paused:
+                    self.paused = True
+                    continue
+
                 if not self.referee.keep_playing():
                     break
 
@@ -67,6 +77,16 @@ class Game:
         self.winner = survivor
         self.canceled = True
 
+    def __adjust_speed(self, mode):
+        if mode == "Pause":
+            self.paused = True
+        if mode == "Play":
+            self.paused = False
+            self.game_config.speed_ms = 500
+        if mode == "Faster":
+            self.paused = False
+            self.game_config.speed_ms = 0
+
     def __draw_finish(self):
         if self.winner_move:
             self.renderer.draw_winner_move(self.winner_move)
@@ -76,7 +96,7 @@ class Game:
 
     def __iterate_game(self, column):
         valid = self.referee.is_turn_valid(self.board, column)
-        pygame.time.wait(self.speed_ms)
+        pygame.time.wait(self.game_config.speed_ms)
         if valid:
             self.board.update_board(column, self.active_player.get_id())
             self.winner_move = self.referee.check_for_win(self.board, self.active_player.get_id())
